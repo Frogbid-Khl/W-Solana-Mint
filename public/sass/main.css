@@ -396,19 +396,16 @@ color: blue;
 }
 
 .sb-mint-footer {
-  width: 10%;
   height: max-content;
   -o-object-fit: contain;
   object-fit: contain;
   position: absolute;
-  left: 50%;
   margin-top: 25px;
   transform: translate(-50%, 0%);
   z-index: 70;
   font-size: 30px;
   text-align: center;
-  background-color: #fff;
-  padding: 15px;
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .sb-mint-footer:hover {
