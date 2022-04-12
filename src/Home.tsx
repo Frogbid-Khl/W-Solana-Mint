@@ -276,7 +276,69 @@ const Home = (props: HomeProps) => {
               both local and world-wide.
             </p>
             <div className="mint">
-              <a href="#" style={{textDecoration: 'none'}}><h1 className="sb-mint">MINT</h1></a>
+              <h1 className="sb-mint">
+                <Container style={{ width: '500px',height: '100px' }}>
+                  <Container maxWidth="xs" style={{ position: 'relative' }}>
+                    <Paper
+                        style={{ padding: 24, backgroundColor: '#151A1F', borderRadius: 6 }}
+                    >
+                      {!wallet.connected ? (
+                          <ConnectButton>Connect Wallet</ConnectButton>
+                      ) : (
+                          <>
+                            <Header candyMachine={candyMachine} />
+                            <MintContainer>
+                              {candyMachine?.state.isActive &&
+                              candyMachine?.state.gatekeeper &&
+                              wallet.publicKey &&
+                              wallet.signTransaction ? (
+                                  <GatewayProvider
+                                      wallet={{
+                                        publicKey:
+                                            wallet.publicKey ||
+                                            new PublicKey(CANDY_MACHINE_PROGRAM),
+                                        //@ts-ignore
+                                        signTransaction: wallet.signTransaction,
+                                      }}
+                                      gatekeeperNetwork={
+                                        candyMachine?.state?.gatekeeper?.gatekeeperNetwork
+                                      }
+                                      clusterUrl={rpcUrl}
+                                      options={{ autoShowModal: false }}
+                                  >
+                                    <MintButton
+                                        candyMachine={candyMachine}
+                                        isMinting={isUserMinting}
+                                        onMint={onMint}
+                                    />
+                                  </GatewayProvider>
+                              ) : (
+                                  <MintButton
+                                      candyMachine={candyMachine}
+                                      isMinting={isUserMinting}
+                                      onMint={onMint}
+                                  />
+                              )}
+                            </MintContainer>
+                          </>
+                      )}
+                    </Paper>
+                  </Container>
+
+                  <Snackbar
+                      open={alertState.open}
+                      autoHideDuration={6000}
+                      onClose={() => setAlertState({ ...alertState, open: false })}
+                  >
+                    <Alert
+                        onClose={() => setAlertState({ ...alertState, open: false })}
+                        severity={alertState.severity}
+                    >
+                      {alertState.message}
+                    </Alert>
+                  </Snackbar>
+                </Container>
+              </h1>
             </div>
 
           </section>
